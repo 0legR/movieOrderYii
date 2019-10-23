@@ -19,6 +19,7 @@ use yii\db\ActiveRecord;
 class HallSeven extends ActiveRecord implements IHall
 {
     private $hallNumber = 7;
+    public $seats = [12, 14, 15, 13, 13, 13, 13, 13, 13, 20];
     /**
      * {@inheritdoc}
      */
@@ -71,5 +72,14 @@ class HallSeven extends ActiveRecord implements IHall
     public function seats($seance)
     {
         return self::find()->where(['seance' => $seance])->all();
+    }
+
+    /**
+     * Remove records by seance
+     * @param $seance
+     */
+    public function removeAllBySeance($seance)
+    {
+        self::deleteAll(['seance' => $seance]);
     }
 }

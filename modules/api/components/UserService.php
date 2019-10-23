@@ -3,7 +3,7 @@
 namespace app\modules\api\components;
 
 use app\models\User;
-use yii\base\Exception;
+use yii\web\HttpException;
 
 /**
  * Manage Simple User
@@ -30,7 +30,7 @@ class UserService
 		if($user->save()) {
 			return $user;
 		} else {
-			throw new Exception('User isn`t stored' . ExitCode::DATAERR);
+			throw new HttpException(404, "User isn`t stored");
 		}
 	}
 

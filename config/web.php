@@ -13,9 +13,12 @@ $config = [
     ],
     'modules' => [
         'api' => [
-            // 'class' => 'app\api\modules\v1\Module'
             'class' => 'app\modules\api\ApiModule'
-        ]
+        ],
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
+            'layout' => 'main'
+        ],
     ],
     'components' => [
         'request' => [
@@ -26,15 +29,9 @@ $config = [
             'enableCsrfValidation' => false,
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
-            ]
+            ],
+            'baseUrl' => ''
         ],
-        // 'urlManager' => [
-        //     'enablePrettyUrl' => true,
-        //     'showScriptName' => false,
-        //     'rules' => [
-        //         ['class' => 'yii\rest\UrlRule', 'controller' => 'api/seance'],
-        //     ],
-        // ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
@@ -42,7 +39,7 @@ $config = [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
             'enableSession' => true,
-            'loginUrl' => null
+            'loginUrl' => '/site/login'
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -64,20 +61,21 @@ $config = [
             ],
         ],
         'db' => $db,
-        // 'urlManager' => [
-        //     'enablePrettyUrl' => true,
-        //     'enableStrictParsing' => true,
-        //     'showScriptName' => false,
-        //     'rules' => [
-        //         ['class' => 'yii\rest\UrlRule', 'controller' => 'seance'],
-        //     ],
-        // ],
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@app/views/cabinet' => '@app/modules/cabinet/views'
+                ],
+            ],
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            // 'suffix' => '.html',
             'rules' => [
                 '/' => 'site/index',
                 '<action:\w+>' => 'site/<action>',
+                
             ],
         ]
     ],

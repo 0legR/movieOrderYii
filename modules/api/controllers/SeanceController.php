@@ -10,6 +10,7 @@ use app\models\Seances;
 use app\modules\api\components\HallService;
 use app\modules\api\components\ApiAuth;
 use yii\filters\AccessControl;
+use yii\web\HttpException;
 
 /**
  * CRUD Seance Table
@@ -58,7 +59,7 @@ class SeanceController extends Controller
 		$id = Yii::$app->request->get();
 		$seance = Seances::findOne($id);
 		if ($seance) {
-			$hallService = new HallService($seance->hall);
+			$hallService = new HallService($seance->hall, $seance->id);
 			return [
 				'data' => [
 					'seance' => $seance,
@@ -67,9 +68,6 @@ class SeanceController extends Controller
 				'status' => 200
 			];
 		}
-		return [
-			'error' => 'There isn`t seance according to your request',
-			'status' => 404
-		];
+		throw new HttpException(404, "There isn`t seance according to your request");
 	}
 }

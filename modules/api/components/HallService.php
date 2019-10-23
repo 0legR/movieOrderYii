@@ -4,6 +4,7 @@ namespace app\modules\api\components;
 
 use app\models\Seances;
 use app\models\Order;
+use yii\web\HttpException;
 
 /**
  * Manage seats of hall
@@ -47,10 +48,12 @@ class HallService
 	public function bookSeat($rows)
 	{
 		$rowsArray = json_decode($rows);
+		$hallSeats = $this->hallSeats();
 		$seatsReport = [];
-		foreach ($this->hallSeats() as $hall) {
+		foreach ($hallSeats as $hall) {
 			foreach ($rowsArray as $key => $row) {
-				if ($hall->row === (int) $key) {
+				$rowNumber = (int) $key;
+				if ($this->checkIsRowInHall($rowNumber, $hallSeats) && $hall->row === $rowNumber) {
 					if (in_array($hall->seat, $row)) {
 						if ($hall->is_free) {
 							$hall->is_free = (int)!$hall->is_free;
@@ -68,18 +71,30 @@ class HallService
 		if(in_array(false, $seatsReport)) {
 			$this->rollbackSeats();
 			$report = json_encode($seatsReport);
-			throw new \Exception("Some seats already booked => {$report}", 1);
+			throw new HttpException(404, "Some seats already booked => {$report}");
 		}
 	}
 
 	/**
-	 * 
+	 * check is row is in the hall
+	 * @param $row int from order
+	 * @param $hallSeats [] of $hall objects
+	 */
+	private function checkIsRowInHall($row, $hallSeats)
+	{
+		if ($row <= $hallSeats[count($hallSeats) - 1]->row) {
+			return true;
+		}	
+		throw new HttpException(404, "There isn`t row {$row} at this hall");
+	}
+
+	/**
+	 * unbook seats unless order isn`t created
 	 */
 	public function rollbackSeats()
 	{
 		foreach ($this->hallSeats() as $hall) {
 			if (in_array($hall->id, $this->bookedSeats)) {
-
 				$hall->is_free = (int)!$hall->is_free;
 				$hall->save();
 			}

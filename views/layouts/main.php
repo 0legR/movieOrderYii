@@ -41,7 +41,7 @@ AppAsset::register($this);
             ['label' => 'Home', 'url' => ['/site/index']],
             [
                 'label' => 'Cabinet',
-                'url' => ['/cabinet/dashboard/index'], 
+                'url' => ['admin/default'], 
                 'visible' => (!Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin())
             ],
             [

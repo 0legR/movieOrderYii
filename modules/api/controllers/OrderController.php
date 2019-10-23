@@ -9,7 +9,7 @@ use yii\filters\AccessControl;
 use yii\filters\ContentNegotiator;
 use yii\web\Response;
 use app\models\Order;
-use yii\base\Exception;
+use yii\web\HttpException;
 use app\modules\api\components\UserService;
 use app\modules\api\components\ApiAuth;
 use app\modules\api\components\HallService;
@@ -68,8 +68,9 @@ class OrderController extends Controller
     public function actionStore()
     {
         $postData = Yii::$app->request->bodyParams;
+        $isBookOnly = isset($postData['isBookOnly']) ? $postData['isBookOnly'] : false;
         if (empty($postData['email'])) {
-        	throw new Exception("Email is absent", 1);
+        	throw new HttpException(404, "Email is absent");
         }
         // Create and athorize user
         $userService = new UserService();
@@ -77,7 +78,7 @@ class OrderController extends Controller
         $auth = new ApiAuth();
         $auth->login($user);
         // Book ordered seats
-        $seance = Seances::find($postData['seance'])->one();
+        $seance = Seances::findOne($postData['seance']);
         $hallService = new HallService($seance->hall, $seance->id);
         $hallService->bookSeat($postData['rows']);
         // Create order itself
@@ -85,7 +86,7 @@ class OrderController extends Controller
         $order->seance = $seance->id;
         $order->seats = $postData['rows'];
         $order->user_id = $user->id;
-        $order->countTotalPrice($seance->price, $postData['isBookOnly']);
+        $order->countTotalPrice($seance->price, $isBookOnly);
         if ($order->save()) {
         	// TO DO Send email with order to User
         	return [
@@ -95,10 +96,7 @@ class OrderController extends Controller
         }
         // unbook seats unless order isn`t created
         $hallService->rollbackSeats();
-        return [
-        	'error' => 'Your order isn`t created',
-			'status' => 404
-        ];
+        throw new HttpException(404, "Your order isn`t created");
     }
 
 }
