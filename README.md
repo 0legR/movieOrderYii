@@ -6,6 +6,8 @@
 1. admin login => movie.test@gmail.com and pass => admin
 
 ###API
+	
+	
 	/**
 	 * @api {get} /api/seance/movie Request Seance information
 	 * @apiName GetSeance
