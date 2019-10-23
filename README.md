@@ -1,6 +1,11 @@
 #Test task Order Seats
-###API
 
+###migration
+1. to seed hall_seven table => use command yii seed-table-hall-seven
+1. to add Admin to user table => use command yii create-user-admin
+1. admin login => movie.test@gmail.com and pass => admin
+
+###API
 	/**
 	 * @api {get} /api/seance/movie Request Seance information
 	 * @apiName GetSeance

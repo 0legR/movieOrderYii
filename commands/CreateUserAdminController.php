@@ -25,7 +25,7 @@ class CreateUserAdminController extends Controller
     	$user = User::find()->where(['role' => User::ADMIN])->one();
     	if (empty($user)) {
     		$user = new User();
-			$user->email = 'oleg.rostov2018@gmail.com';
+			$user->email = 'movie.test@gmail.com';
 			$user->setPassword('admin');
 			$user->role = User::ADMIN;
 			$user->generateAuthKey();

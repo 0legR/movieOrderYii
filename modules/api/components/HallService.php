@@ -13,6 +13,9 @@ class HallService
 	
 	private $hall;
 	private $seance;
+	/**
+	 * an array to keep booked seats
+	 */
 	public $bookedSeats = [];
 
 	private $halls = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven'];
@@ -54,16 +57,18 @@ class HallService
 							$hall->save();
 							$this->bookedSeats[] = $hall->id;
 							$seatsReport["[row => {$hall->row}][seat => {$hall->seat}]"] = true;
+						} else {
+							$seatsReport["[row => {$hall->row}][seat => {$hall->seat}]"] = false;
 						}
-						$seatsReport["[row => {$hall->row}][seat => {$hall->seat}]"] = false;
 					}
 				}
 			}
 		}
-		if(in_array(false, $this->bookedSeats)) {
+
+		if(in_array(false, $seatsReport)) {
 			$this->rollbackSeats();
 			$report = json_encode($seatsReport);
-			throw new Exception("Some seats already booked => {$report}", 1);
+			throw new \Exception("Some seats already booked => {$report}", 1);
 		}
 	}
 
@@ -74,6 +79,7 @@ class HallService
 	{
 		foreach ($this->hallSeats() as $hall) {
 			if (in_array($hall->id, $this->bookedSeats)) {
+
 				$hall->is_free = (int)!$hall->is_free;
 				$hall->save();
 			}

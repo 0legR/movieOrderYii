@@ -57,8 +57,9 @@ class OrderController extends Controller
  * Book ordered seats
  * Create order itself
  *
- * @param $postData an array
+ * 	$postData an array
  *	 [
+ *			'isBookOnly' => true | false
  *			'email' => 'test@sdf.fs',
  *			'rows' => '{ '1' => [2, 3], '2' => [5, 7] ... }'
  *			'seance' => 1
@@ -84,7 +85,7 @@ class OrderController extends Controller
         $order->seance = $seance->id;
         $order->seats = $postData['rows'];
         $order->user_id = $user->id;
-        $order->countTotalPrice($seance->price);
+        $order->countTotalPrice($seance->price, $postData['isBookOnly']);
         if ($order->save()) {
         	// TO DO Send email with order to User
         	return [

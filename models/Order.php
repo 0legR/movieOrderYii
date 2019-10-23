@@ -17,6 +17,7 @@ use Yii;
  */
 class Order extends \yii\db\ActiveRecord
 {
+    const BOOKING_PRICE = 3;
     /**
      * {@inheritdoc}
      */
@@ -56,14 +57,16 @@ class Order extends \yii\db\ActiveRecord
     /**
      * count total price
      * @param $price of on seat
+     * @param $isBookOnly 
      */
-    public function countTotalPrice($price)
+    public function countTotalPrice($price, $isBookOnly = false)
     {
         $rowsArray = json_decode($this->seats);
         $seatConter = 0;
         foreach ($rowsArray as $key => $row) {
             $seatConter += count($row);
         }
-        $this->total_price = $seatConter * $price;
+        $priceToCount = $isBookOnly ? self::BOOKING_PRICE : $price;
+        $this->total_price = $seatConter * $priceToCount;
     }
 }

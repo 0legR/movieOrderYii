@@ -50,7 +50,7 @@ class SeanceController extends Controller
 	}
 
 	/**
-	 * @param $id integer
+	 * 
 	 * @return $seance object to json
 	 */
 	public function actionMovie()

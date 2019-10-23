@@ -1,0 +1,80 @@
+Array
+(
+    [0] => Array
+        (
+            [line] => 7
+            [file] => modules/api/ApiModule.php
+            [message] => No docblock for element 'app\modules\api\ApiModule'
+        )
+
+    [1] => Array
+        (
+            [line] => 9
+            [file] => modules/api/ApiModule.php
+            [message] => No docblock for element '$controllerNamespace'
+        )
+
+    [2] => Array
+        (
+            [line] => 9
+            [file] => modules/api/ApiModule.php
+            [message] => No short description for element '$controllerNamespace'
+        )
+
+    [3] => Array
+        (
+            [line] => 10
+            [file] => modules/api/ApiModule.php
+            [message] => No docblock for element 'init'
+        )
+
+    [4] => Array
+        (
+            [line] => 8
+            [file] => modules/api/components/ApiAuth.php
+            [message] => No docblock for element 'app\modules\api\components\ApiAuth'
+        )
+
+    [5] => Array
+        (
+            [line] => 10
+            [file] => modules/api/components/ApiAuth.php
+            [message] => No docblock for element 'authenticate'
+        )
+
+    [6] => Array
+        (
+            [line] => 24
+            [file] => modules/api/components/ApiAuth.php
+            [message] => No docblock for element 'login'
+        )
+
+    [7] => Array
+        (
+            [line] => 29
+            [file] => modules/api/components/ApiAuth.php
+            [message] => No docblock for element 'logout'
+        )
+
+    [8] => Array
+        (
+            [line] => 23
+            [file] => modules/api/components/HallService.php
+            [message] => No docblock for element '__construct'
+        )
+
+    [9] => Array
+        (
+            [line] => 23
+            [file] => modules/api/controllers/OrderController.php
+            [message] => No docblock for element 'behaviors'
+        )
+
+    [10] => Array
+        (
+            [line] => 20
+            [file] => modules/api/controllers/SeanceController.php
+            [message] => No docblock for element 'behaviors'
+        )
+
+)

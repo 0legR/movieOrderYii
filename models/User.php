@@ -93,9 +93,9 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
      * @param string $username
      * @return static|null
      */
-    public static function findByEmail($username)
+    public static function findByEmail($email)
     {
-        return static::findOne(['email' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
     }
  
     /**
@@ -149,5 +149,10 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     public function generateAuthKey()
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === self::ADMIN;
     }
 }   
