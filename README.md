@@ -8,6 +8,8 @@
 ###API
 	
 
+
+
 	/**
 	 * @api {get} /api/seance/movie Request Seance information
 	 * @apiName GetSeance
