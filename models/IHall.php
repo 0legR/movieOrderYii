@@ -14,4 +14,9 @@ interface IHall {
 	 */
 	public function seats($seance);
 
+	/**
+     * Remove records by seance
+     * @param $seance
+     */
+	public function removeAllBySeance($seance);
 }
